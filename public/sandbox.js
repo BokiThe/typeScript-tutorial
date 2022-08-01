@@ -49,12 +49,13 @@
 //     belt: string,
 // }; // ovako govorimo da aje objekat bas objekat a ne tip objekat... i takodje mozemo odmaah da stavimo i tipove za propertije koji nece daa se menjaju
 // *** lekcija 8 ***
-let greet;
-greet = () => {
-    console.log("hello, world!");
-};
-const add = (a, b, c = 10) => {
-    console.log(a + b);
-    console.log(c);
-};
-add(3, 10);
+// let greet: Function;
+// greet = () => {
+//     console.log("hello, world!")
+// }
+// const add = (a: number, b: number, c: number | string = 10) => {
+//     console.log(a + b)
+//     console.log(c)
+// }
+// add(3, 10)
+// **** lection 9 *** alias types
