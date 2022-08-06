@@ -1,3 +1,28 @@
+// *** Lection 15 ***  interfaces
+
+interface IsPerson {
+    name: string;
+    age: number;
+    speak(a: string): void;
+    spend(a: number): number;
+
+}
+
+const me: IsPerson = {
+    name: "Bojan",
+    age: 33,
+    speak(text: string): void {
+        console.log(text)
+    },
+    spend(amount: number): number {
+        console.log('I spand', amount);
+        return amount
+    },
+};
+console.log(me)
+
+
+
 import { Invoice } from "./classes/invoice";
 const anchor = document.querySelector('a')!;
 
@@ -56,6 +81,4 @@ invoices.forEach(inv => {
 // *** lection 14 *** module
 
 
-
-// *** Lection 15 ***  interfaces
 

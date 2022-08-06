@@ -1,3 +1,16 @@
+// *** Lection 15 ***  interfaces
+const me = {
+    name: "Bojan",
+    age: 33,
+    speak(text) {
+        console.log(text);
+    },
+    spend(amount) {
+        console.log('I spand', amount);
+        return amount;
+    },
+};
+console.log(me);
 import { Invoice } from "./classes/invoice";
 const anchor = document.querySelector('a');
 anchor ? console.log(anchor.href) : false; // ovo je jedan naacin daa se izbegne warning koji se javlja u typescriptu kao moguci NULL jer typescript ne zna tj nema direktan pojam o tome staa sve ima u html fajlu i zato baca warning kaada su u pitanju neki od tipova html tagova u ovom slucaju link jer on moze da nema href atribut.
