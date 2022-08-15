@@ -1,5 +1,5 @@
 import { HasFormater } from "../interfaces/HasFormater";
-export class Invoice implements HasFormater {
+export default class Invoice implements HasFormater {
     // readonly client: string; // ne moze se menjati ali se moze pristupiti
     // private details: string; // ne moze se procitaati ali se moze prikazati kroz metodu
     // public amount: number; // moze se menjati i citati 
@@ -14,6 +14,7 @@ export class Invoice implements HasFormater {
     }
 
     format() {
-        return `${this.client} owes ${this.amount} for ${this.details}`
+        return `${this.client} owes ${this.amount}USD for ${this.details}`
     }
 }
+

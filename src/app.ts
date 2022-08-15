@@ -1,11 +1,51 @@
 
-import { Invoice } from "./claasses/invoice";
+import Invoice from "./classes/Invoice.js";
+import { ListTemplate } from "./classes/ListTemplate.js";
+import Payment from "./classes/Payment.js";
+import { HasFormater } from "./interfaces/HasFormater.js";
 
 
-const anchor = document.querySelector('a')!;
+// interface IsPerson {
+//     name: string;
+//     age: number;
+//     speak(a: string): void;
+//     spend(a: number): number;
+
+// }
+
+// const me: IsPerson = {
+//     name: "Bojan",
+//     age: 33,
+//     speak(text: string): void {
+//         console.log(text)
+//     },
+//     spend(amount: number): number {
+//         console.log('I spand', amount);
+//         return amount
+//     },
+// };
+// console.log(me);
+
+// const greetPerson = (person: IsPerson) => {
+//     console.log("hallo", person.name)
+// }
+// greetPerson(me)
+
+// let docOne: HasFormater;
+// let docTwo: HasFormater;
+
+// docOne = new Invoice("bojan", "web work", 350);
+// docTwo = new Peyment("vlada", "web work", 350)
+
+// let docs: HasFormater[] = [];
+// docs.push(docOne);
+// docs.push(docTwo);
+// console.log(docs)
+
+// const anchor = document.querySelector('a')!;
 
 
-anchor ? console.log(anchor.href) : false; // ovo je jedan naacin daa se izbegne warning koji se javlja u typescriptu kao moguci NULL jer typescript ne zna tj nema direktan pojam o tome staa sve ima u html fajlu i zato baca warning kaada su u pitanju neki od tipova html tagova u ovom slucaju link jer on moze da nema href atribut.
+// anchor ? console.log(anchor.href) : false; // ovo je jedan naacin daa se izbegne warning koji se javlja u typescriptu kao moguci NULL jer typescript ne zna tj nema direktan pojam o tome staa sve ima u html fajlu i zato baca warning kaada su u pitanju neki od tipova html tagova u ovom slucaju link jer on moze da nema href atribut.
 
 // stoga postoji 2 nacina koja koristimo za izbegavanje ovakvih warninga a to je da stavimo if else tj da proverimo da li to nesto postoji pre nego daa proverimo njegove propertije  ili samo stavimo znak uzvika "! " na kraju samog statementa , sto oznacava daa ce typescript prvo proveriti da li to opostoji pre nego bilo sta daa odraadi
 
@@ -22,38 +62,50 @@ const form2 = document.querySelector('.new-item-form') as HTMLFormElement; // sa
 
 // inputs 
 
-const type = document.querySelector('#type') as HTMLSelectElement;
-const toFrom = document.querySelector('#toFrom') as HTMLInputElement;
-const details = document.querySelector('#details') as HTMLInputElement;
-const amount = document.querySelector('#amount') as HTMLInputElement;
+const type = document.querySelector('#type')! as HTMLSelectElement;
+const toFrom = document.querySelector('#tofrom')! as HTMLInputElement;
+const details = document.querySelector('#details')! as HTMLInputElement;
+const amount = document.querySelector('#amount')! as HTMLInputElement;
+// list item instance
+const ul = document.querySelector("ul")!;
+
+const list = new ListTemplate(ul);
 
 form.addEventListener('submit', (e: Event) => {
     e.preventDefault();
-    console.log(
-        type.value,
-        toFrom.value,
-        details.value,
-        amount.valueAsNumber)
+
+    let doc: HasFormater; // creating object thaat has implemented HasFormaater 
+    // check if is invoice or payment
+    type.value === 'invoice' ?
+        doc = new Invoice(toFrom.value, details.value, amount.valueAsNumber)
+        :
+        doc = new Payment(toFrom.value, details.value, amount.valueAsNumber);
+
+    list.render(doc, type.value, "end");
 })
 
 
+// if (Invoice) {
 
-const invOne = new Invoice('maario', 'work on mario website', 250);
+//     const invOne = new Invoice('maario', 'work on mario website', 250);
 
-const invTwo = new Invoice('luigi', 'work on luigi website', 300);
+//     const invTwo = new Invoice('luigi', 'work on luigi website', 300);
 
-let invoices: Invoice[] = [];
+//     let invoices: Invoice[] = [];
 
-invoices.push(invOne);
-invoices.push(invTwo);
+//     invoices.push(invOne);
+//     invoices.push(invTwo);
 
-console.log(invoices);
+//     console.log(invoices);
 
-// 
+//     // 
 
-invoices.forEach(inv => {
-    console.log(`${inv.client} ${inv.amount}$  \n ${inv.format()}`)
-})
+//     invoices.forEach(inv => {
+//         console.log(`${inv.client} ${inv.amount}$  \n ${inv.format()}`)
+//     })
+// } else {
+//     console.log("nemogu da dobijem ")
+// }
 
 
 // // *** lection 14 *** module
@@ -62,27 +114,44 @@ invoices.forEach(inv => {
 
 // *** Lection 15 ***  interfaces
 
-interface IsPerson {
-    name: string;
-    age: number;
-    speak(a: string): void;
-    spend(a: number): number;
 
+// *** Lection #18 *** Generics
+
+// ENUM // objekat koji sadrzi razlicite kljucne reci koje bi mogle da se iskoriste za prikazivanje necega ili oznacavanje necega kada se koristi, ali takodje ce znaciti i samom korisniku nasih funkcija jer ce imati padajuci meni kada koriste neki enum, takodje svako korisecenje propertija ovog objekta vraca broj, tj mesto na kom se nalazi, sto je takodje dobro za privatnost samog koda
+
+enum ResourceType { BOOK, AUTHOR, FILM, DIRECTOR, PERSON }
+// Sa ovim <T> gde T znaci u principu Type , mozemo da resimo problem sa prikazom propertija iz samog objekta saaamo T ne oznacava nista vec kao i any oznacava bilo koji tip pa zato koristimo metodu extends gde preko nje oznacavamo kojeg ce tipa biti taj podatak i preko njega mozemo da koristimo metode i propertije tog objekta.
+const addUID = <T extends object>(obj: T) => {
+    let uid = Math.floor(Math.random() * 100);
+    return { ...obj, uid };
 }
 
-const me: IsPerson = {
-    name: "Bojan",
-    age: 33,
-    speak(text: string): void {
-        console.log(text)
-    },
-    spend(amount: number): number {
-        console.log('I spand', amount);
-        return amount
-    },
-};
-console.log(me);
+let docOne = addUID({ name: 'bojan', age: 33 })
 
-const greetPerson = (person: IsPerson) => {
-    console.log("hallo", person.name)
+console.log(docOne)
+
+
+// sa interfejsom
+
+interface Resource<T> {
+    uid: number;
+    resourceName: ResourceType;
+    data: T;
 }
+
+
+const docThree: Resource<object> = {
+    uid: 1,
+    resourceName: ResourceType.BOOK,
+    data: { name: 'name of the wind' },
+}
+const docFour: Resource<object> = {
+    uid: 10,
+    resourceName: ResourceType.PERSON,
+    data: { name: 'Bojan' },
+}
+
+console.log(docThree, docFour);
+
+// *** Lection 20 *** Tuples
+
